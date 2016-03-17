@@ -6,15 +6,19 @@ module.exports = {
 
   // Add asset map hash to asset-map controller
   postBuild: function (results) {
-    var fs          = require('fs'),
+    var jsPath, js, assetMapKey, expression, injectedJs,
+        fs          = require('fs'),
         path        = require('path'),
         tree        = results['graph']['tree'],
-        assetMap    = tree._inputNodes[tree._inputNodes.length - 1].assetMap,
-        jsPath      = path.join(results.directory, assetMap['assets/' + process.env.ASSET_MAP_APP_NAME + '.js']),
-        js          = fs.readFileSync(jsPath, 'utf-8'),
-        assetMapKey = 'assetMapHash',
-        expression  = new RegExp(assetMapKey + ':\\s?(void 0|undefined)'),
-        injectedJs  = js.replace(expression, assetMapKey + ': ' + JSON.stringify(assetMap));
+        assetMap    = tree._inputNodes[tree._inputNodes.length - 1].assetMap;
+
+    if (!assetMap) { console.error('could not find asset map'); return; }
+
+    jsPath      = path.join(results.directory, assetMap['assets/' + process.env.ASSET_MAP_APP_NAME + '.js']);
+    js          = fs.readFileSync(jsPath, 'utf-8');
+    assetMapKey = 'assetMapHash';
+    expression  = new RegExp(assetMapKey + ':\\s?(void 0|undefined)');
+    injectedJs  = js.replace(expression, assetMapKey + ': ' + JSON.stringify(assetMap));
 
     if (fs.existsSync(jsPath)) {
       fs.writeFileSync(jsPath, injectedJs, 'utf-8');
