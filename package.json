@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-inject-asset-map",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get access to Brocfile's generated assetMap.json in your ember-cli app.",
   "directories": {
     "doc": "doc",
