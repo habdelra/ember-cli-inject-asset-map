@@ -10,7 +10,9 @@ module.exports = {
         fs          = require('fs'),
         path        = require('path'),
         tree        = results['graph']['tree'],
-        assetMap    = tree._inputNodes[tree._inputNodes.length - 1].assetMap;
+        // as of ember-cli-fastboot 0.6.0 you can find the assetmap in teh 2nd tree...
+        // probably we should be smarter about how we find this...
+        assetMap    = tree._inputNodes[tree._inputNodes.length - 2].assetMap;
 
     if (!assetMap) { console.error('could not find asset map'); return; }
 
