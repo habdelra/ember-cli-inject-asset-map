@@ -12,8 +12,10 @@ module.exports = {
         tree        = results['graph']['tree'],
         // as of ember-cli-fastboot 0.6.0 you can find the assetmap in the 2nd tree...
         // probably we should be smarter about how we find this...
-        fastbootAssetMap = tree._inputNodes[tree._inputNodes.length - 1].assetMap,
-        assetMap    = tree._inputNodes[tree._inputNodes.length - 2].assetMap;
+        fastbootAssetMap = tree._inputNodes[tree._inputNodes.length - 1] ?
+          tree._inputNodes[tree._inputNodes.length - 1].assetMap : null,
+        assetMap    = tree._inputNodes[tree._inputNodes.length - 2] ?
+          tree._inputNodes[tree._inputNodes.length - 2].assetMap : null;
 
     if (!assetMap) { console.error('could not find asset map'); return; }
     if (!fastbootAssetMap) { console.error('could not find fastboot asset map'); return; }
